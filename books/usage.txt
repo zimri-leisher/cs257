@@ -20,20 +20,6 @@ OPTIONS
 	-d, --date <start year>[,<end year>]
 		Filters results to books whose start year is after <start year> inclusive, and before <end year> inclusive, if it is specified
 
-
-books [--title <book match string>] [-h | --help] [--author <author match string>] [--date <start year>[,<end year>]] [--sort <title|year>]
-
-
-books -t "asdfasd"
-books "Book title"
-books --author "
-books --help
-books "Book title" --author "Author name"
-
-
-books --date 0,1599
-
-books --author "test"
-
-
+	-s, --sort title|date
+		Sorts the results by either the title or the date published
 
