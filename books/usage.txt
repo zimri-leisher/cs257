@@ -2,10 +2,10 @@ NAME
 	books - search through a book database
 
 SYNOPSIS
-	books [-h | --help] [-t | --title <title>] [-a | --author <name>] [-d | --date <start year>[,<end year>]] [-s | --sort title|date]
+	books [-h | --help] [-t | --title <title>] [-a | --author <name>] [-d | --date <start year>[,<end year>]] [-s | --sort title|date] [-o | --output <output format string>]
 
 DESCRIPTION
-	books is a search tool to find a books from a CSV database. It allows you to search by any combination of book title, author or date published. The results can be sorted by title or date published.
+	books is a search tool to find a books from a CSV database. It allows you to search by any combination of book title, author or date published. The result will be a list of books matching the search parameters (or all the books if there are no search parameters), printed according to the output format string provided to the --output option. The books can be sorted by title or date published.
 
 OPTIONS
 	-h, --help
@@ -21,5 +21,9 @@ OPTIONS
 		Filters results to books whose start year is after <start year> inclusive, and before <end year> inclusive, if it is specified
 
 	-s, --sort title|date
+		DEFAULT=title
 		Sorts the results by either the title or the date published
 
+	-o, --output <output format string>
+		DEFAULT=atd
+		Specifies the output format for the results. This string can consist of any combination of 0 or 1 of the following characters: 'a', 't', 'd', which correspond to printing the author, title and date published respectively. For example, if --output dt is passed in, the output for each book matching the filters will be the date published followed by the title. 
