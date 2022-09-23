@@ -45,7 +45,7 @@ class BooksDataSourceTester(unittest.TestCase):
         # and test breaking ties by given name
 
     def test_bad_input(self):
-        
+        pass 
 
     def test_unique_book(self):
         books = self.data_source.books('Blackout')
