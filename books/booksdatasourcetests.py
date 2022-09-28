@@ -28,12 +28,14 @@ class BooksDataSourceTester(unittest.TestCase):
 
     def test_authors_no_search_text(self):
         all_authors = self.data_source_small.authors(None)
+        self.assertEqual(len(all_authors), 6)
         for author in [Author('Author', 'One'), Author('Author', 'Two'), Author('Author', 'Three'),
                        Author('Author', 'Four'), Author('Author', 'Five'), Author('AAthor', 'Five')]:
             self.assertIn(author, all_authors)
 
     def test_authors_sorted_surname(self):
         authors = self.data_source_small.authors(None)
+        self.assertEqual(len(authors), 6)
         self.assertEqual(authors[0].surname, 'Five')
         self.assertEqual(authors[0].given_name, 'AAthor')
         self.assertEqual(authors[1].surname, 'Five')
@@ -63,11 +65,13 @@ class BooksDataSourceTester(unittest.TestCase):
                         Book('Three', 201, Author('Author', 'Two')), Book('Four', 300, Author('Author', 'Four')),
                         Book('Five ', 400, Author('Author', 'Four')), Book('Six', 500, Author('Author', 'Five')),
                         Book('Seven', 600, Author('AAthor', 'Five'))]
+        self.assertEqual(len(books), len(actual_books))
         for book in actual_books:
             self.assertTrue(book in books)
 
     def test_books_sorted_by_year(self):
         books = self.data_source_small.books(None, 'year')
+        self.assertEqual(len(books), 9)
         self.assertEqual(books[0].publication_year, 100)
         self.assertEqual(books[0].title, 'One')
         self.assertEqual(books[1].publication_year, 100)
@@ -91,6 +95,7 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertEqual(books[6].title, 'Three')
         self.assertEqual(books[7].title, 'Three')
         self.assertEqual(books[8].title, 'Two')
+        self.assertEqual(len(books), 9)
 
     def test_books_default_sort(self):
         books = self.data_source_small.books(None)
@@ -108,11 +113,13 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertEqual(books[0].title, 'Five ')
         self.assertEqual(books[1].title, 'Six')
         self.assertEqual(books[2].title, 'Seven')
+        self.assertEqual(len(books), 3)
 
     def test_books_btn_yrs_break_ties(self):
         books = self.data_source_small.books_between_years(100, 100)
         self.assertEqual(books[0].title, 'One')
         self.assertEqual(books[1].title, 'Two')
+        self.assertEqual(len(books), 2)
 
     def test_books_btn_yrs_start_yr_none(self):
         books = self.data_source_small.books_between_years(None, 200)
@@ -120,11 +127,13 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertEqual(books[1].title, 'Two')
         self.assertEqual(books[2].title, 'Three')
         self.assertEqual(books[3].title, 'Three')
+        self.assertEqual(len(books), 4)
 
     def test_books_btn_yrs_end_yr_none(self):
         books = self.data_source_small.books_between_years(500, None)
         self.assertEqual(books[0].title, 'Six')
         self.assertEqual(books[1].title, 'Seven')
+        self.assertEqual(len(books), 2)
 
     def test_books_btn_yrs_both_none(self):
         books = self.data_source_small.books_between_years(None, None)
