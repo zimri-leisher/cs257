@@ -11,6 +11,10 @@ OPTIONS
 	-h, --help
 		Prints the usage statement.
 
+	-i, --input <input file>
+	    DEFAULT=books.csv
+	    Loads books from the specified CSV file.
+
 	-t, --title <title>
 		Filters results to books whose title matches <title>.
 
@@ -18,12 +22,12 @@ OPTIONS
 		Filters results to books whose author's name matches <name>.
 
 	-d, --date <start year>[,<end year>]
-		Filters results to books whose start year is after <start year> inclusive, and before <end year> inclusive, if it is specified
+		Filters results to books whose start year is after <start year> inclusive, and before <end year> inclusive, if it is specified.
 
 	-s, --sort title|date
 		DEFAULT=title
-		Sorts the results by either the title or the date published
+		Sorts the results by either the title or the date published.
 
 	-o, --output <output format string>
-		DEFAULT=atd
+		DEFAULT=tad
 		Specifies the output format for the results. This string can consist of any combination of 0 or 1 of the following characters: 'a', 't', 'd', which correspond to printing the author, title and date published respectively. For example, if --output dt is passed in, the output for each book matching the filters will be the date published followed by the title. 
