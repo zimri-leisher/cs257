@@ -1,3 +1,6 @@
+# Zimri Leisher and Zach Dong
+# September 2022
+
 from argparse import ArgumentParser
 
 from booksdatasource import *
