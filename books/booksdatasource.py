@@ -9,11 +9,14 @@
 
 import csv
 import re
-from argparse import ArgumentParser
 from typing import List
 
 
 class Author:
+    """
+    A data storage object for information about an author of a book.
+    """
+
     def __init__(self, given_name="", surname="", birth_year=None, death_year=None):
         self.surname = surname
         self.given_name = given_name
@@ -21,7 +24,7 @@ class Author:
         self.death_year = death_year
 
     def __eq__(self, other):
-        """ For simplicity, we're going to assume that no two authors have the same name. """
+        # For simplicity, we're going to assume that no two authors have the same name.
         return self.surname == other.surname and self.given_name == other.given_name
 
     def __str__(self):
@@ -30,8 +33,6 @@ class Author:
 
 class Book:
     def __init__(self, title="", publication_year=None, authors=None):
-        """ Note that the self.authors instance variable is a list of
-            references to Author objects. """
         if authors is None:
             authors = []
         self.title = title
@@ -39,9 +40,9 @@ class Book:
         self.authors = authors
 
     def __eq__(self, other):
-        """ We're going to make the excessively simplifying assumption that
-            no two books have the same title, so "same title" is the same
-            thing as "same book". """
+        # We're going to make the excessively simplifying assumption that
+        #    no two books have the same title, so "same title" is the same
+        #    thing as "same book".
         return self.title == other.title
 
     def __str__(self):
@@ -88,13 +89,30 @@ def _get_authors_from_books(books):
 
 
 class BookFilter:
+    """
+    A class which implements a predicate for filtering books.
+    """
+
     def check(self, book) -> bool:
+        """
+        Checks whether the book passes the filter.
+        :param book: the book to check
+        :return: True if the book passes the filter, False otherwise
+        """
         pass
 
 
 class TitleFilter(BookFilter):
+    """
+    Filters books based on their title.
+    """
 
     def __init__(self, title):
+        """
+        Creates a new TitleFilter.
+        :param title: the string to check against the book title, case-insensitive. If it is contained in the title,
+        the filter passes.
+        """
         self.title = title
 
     def check(self, book) -> bool:
@@ -102,8 +120,14 @@ class TitleFilter(BookFilter):
 
 
 class AuthorFilter(BookFilter):
+    """Filters books based on their author."""
 
     def __init__(self, author_match_str):
+        """
+        Creates a new AuthorFilter.
+        :param author_match_str: the string to check against the book's author names. If it is contained within any
+        author name, the filter passes.
+        """
         self.author_match_str = author_match_str
 
     def check(self, book) -> bool:
@@ -113,8 +137,15 @@ class AuthorFilter(BookFilter):
 
 
 class PublicationYearFilter(BookFilter):
+    """Filters books based on their publication year."""
 
     def __init__(self, start_year, end_year):
+        """
+        Creates a new PublicationYearFilter. If only start_year is None, books will be returned up to the end_year. If
+        only end_year is None, books will be returned after the start year. If both are None, all books will pass.
+        :param start_year: the start year of the range to permit, inclusive.
+        :param end_year: the end year of the range to permit, inclusive.
+        """
         self.start_year = int(start_year) if start_year else None
         self.end_year = int(end_year) if end_year else None
 
@@ -127,8 +158,12 @@ class PublicationYearFilter(BookFilter):
 
 
 class CompoundFilter(BookFilter):
+    """Filters books based on a list of other filters."""
 
     def __init__(self, filters):
+        """Creates a new CompoundFilter.
+        :param filters: the list of filters to check books on.
+        """
         self.filters = filters
 
     def check(self, book) -> bool:
@@ -215,5 +250,3 @@ class BooksDataSource:
 
     def filter(self, book_filter: BookFilter) -> List[Book]:
         return list(filter(book_filter.check, self.all_books))
-
-
