@@ -30,12 +30,15 @@ def main():
                                 "matching the filters will be the date published followed by the title.",
                            type=str, default="tad")
     args = arg_parse.parse_args()
+
+    # the list of filters that we will apply to the dataset
     filters = []
     if args.title:
         filters.append(TitleFilter(args.title))
     if args.author:
         filters.append(AuthorFilter(args.author))
     if args.date:
+        # split the date arg by start_year and end_year
         start_year, *end_year = [s.replace("(", "").replace(")", "").replace(" ", "") for s in args.date.split(",")]
         start_year = int(start_year)
         end_year = int(end_year[0]) if len(end_year) > 0 and end_year[0] != '' else None
@@ -43,9 +46,17 @@ def main():
     for c in args.output:
         if c not in ['a', 't', 'd']:
             raise Exception("Invalid format character " + c + ", valid characters are 'a', 't', 'd'")
+
+    # create compound filter from filter list
     compound_filter = CompoundFilter(filters)
+
+    # create the datasource
     data = BooksDataSource(args.input)
+
+    # apply the filters
     matching = data.filter(compound_filter)
+
+    # sort the filtered data
     if args.sort == "title":
         matching = sorted(matching, key=lambda b: b.publication_year)
         matching = sorted(matching, key=lambda b: b.title)
@@ -54,6 +65,8 @@ def main():
         matching = sorted(matching, key=lambda b: b.publication_year)
     else:
         raise Exception("Invalid sort type " + args.sort)
+
+    # use the output arg to format output
     for book in matching:
         formatted_book = []
         for format_char in args.output:
